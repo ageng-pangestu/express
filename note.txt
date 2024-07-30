@@ -1,0 +1,30 @@
+1.Models
+- Di PostModel.ts
+- Buat model
+- Export "PostModel"
+
+2.Services
+- di PostService.ts
+- Import "PostModel" dari model
+- Buat variable "Post" type array PostModel
+- Buat function dan export: findAll, findById, create, update, remove, yang me return Post
+
+3.Controller
+- Import semua function (*) as postService dari Services 
+- Import {Request, Response} dari "express"
+- buat dan export function untuk findAll, findById, create, update, dan delete, menggunakan parameter Request dan Response
+
+4.Routes
+- Di PostRoute.ts
+- Import { Router } dari "express"
+- Import semua function (*) as postController dari Controller
+- Inisialisasi Router()
+- gunakan function Router(): get, post, put, delete dengan parameter route, dan postController(findAll dll) 
+- Export PostRoute
+- Di indext.ts
+- Import PostRoute dari postRoute.ts
+- gunakan function Router(): use dengan parameter route dan postRoute
+
+5.index.ts
+- Import route dari route dari routes
+- use route

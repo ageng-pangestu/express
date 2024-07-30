@@ -1,0 +1,25 @@
+import express from "express";
+import dotenv from "dotenv";
+import route from "./src/routes";
+
+//inisialisasi dotenv
+dotenv.config();
+
+//inisialisasi express
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+//entrypoint
+app.get("/", (req: express.Request, res: express.Response) => {
+  res.send("Papoy");
+});
+
+app.use(route);
+
+//run server
+app.listen(port, () => {
+  console.log(`[server]: Server is running at http://localhost:${port}`);
+});
