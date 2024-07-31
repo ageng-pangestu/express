@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import route from "./src/routes";
+import db from "./src/libs/db";
 
 //inisialisasi dotenv
 dotenv.config();
@@ -20,6 +21,11 @@ app.get("/", (req: express.Request, res: express.Response) => {
 app.use(route);
 
 //run server
-app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
+app.listen(port, async () => {
+  try {
+    await db.$connect;
+    console.log(`[server]: Server is running at http://localhost:${port}`);
+  } catch (error) {
+    await db.$disconnect;
+  }
 });
