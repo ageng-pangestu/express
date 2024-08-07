@@ -9,25 +9,27 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  username String
-  password String
+  id          Int      @id @default(autoincrement())
+  username    String
+  fullName    String
+  email       String
+  password    String
   profile_pic String?
-
+  createdAt   DateTime @default(now())
 
   posts Posts[]
 }
 
 model Posts {
-  id     Int     @id @default(autoincrement())
-  title  String
-  body   String?
-  userId Int
+  id         Int      @id @default(autoincrement())
+  content    String?
+  createdAta DateTime @default(now())
+  userId     Int
 
   author User @relation(fields: [userId], references: [id])
 }
