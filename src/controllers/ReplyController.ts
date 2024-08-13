@@ -1,23 +1,19 @@
 import { createPostSchema } from "../libs/validations/post";
-import * as postService from "../services/PostService";
+import * as replyService from "../services/ReplyService";
 import { Request, Response } from "express";
 import errorHandler from "../utils/errorHandler";
 
 export const findAllPost = async (req: Request, res: Response) => {
-  console.log("Masuk Controller");
-
-  const posts = await postService.findAll();
+  const posts = await replyService.findAll();
   res.json(posts);
 };
 
 export const findByIdPost = async (req: Request, res: Response) => {
-  const post = await postService.findById(parseInt(req.params.id));
+  const post = await replyService.findById(parseInt(req.params.id));
   res.json(post);
 };
 
 export const createPost = async (req: Request, res: Response) => {
-  console.log("masuk createcontroller");
-
   try {
     await createPostSchema.validateAsync(req.body);
 
@@ -25,13 +21,12 @@ export const createPost = async (req: Request, res: Response) => {
       req.body.image = req.file.filename;
     }
 
-    //ambil userId dari user
+    const postId = parseInt(req.params.post_id);
     const userId = res.locals.user.id;
-    console.log("User id: " + userId);
-
     req.body.userId = userId;
+    req.body.parentId = postId;
 
-    const post = await postService.create(req.body);
+    const post = await replyService.create(req.body);
     res.json(post);
   } catch (error) {
     errorHandler(res, error as unknown as Error);
@@ -39,7 +34,7 @@ export const createPost = async (req: Request, res: Response) => {
 };
 
 export const updatePost = async (req: Request, res: Response) => {
-  const post = await postService.update(parseInt(req.params.id), req.body);
+  const post = await replyService.update(parseInt(req.params.id), req.body);
 
   console.log(post);
 
@@ -47,6 +42,6 @@ export const updatePost = async (req: Request, res: Response) => {
 };
 
 export const deletePost = async (req: Request, res: Response) => {
-  const post = await postService.deletePost(parseInt(req.params.id));
+  const post = await replyService.deletePost(parseInt(req.params.id));
   res.json(post);
 };

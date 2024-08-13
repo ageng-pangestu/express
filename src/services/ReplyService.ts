@@ -1,12 +1,10 @@
 import { PostModels } from "../models/PostModels";
 import db from "../libs/db";
 import { Posts } from "@prisma/client";
-import { IPosts } from "../types/post";
 
 const posts: PostModels[] = [];
 
 export const findAll = async () => {
-  console.log("Masuk Service");
   return await db.posts.findMany({
     // join table
     include: {
@@ -17,7 +15,6 @@ export const findAll = async () => {
           profile_pic: true,
         },
       },
-      comments: true,
     },
   });
 };
@@ -40,8 +37,7 @@ export const findById = async (id: number) => {
 };
 
 //parameter dari model
-export const create = async (post: PostModels) => {
-  console.log("masuk createservice");
+export const create = async (post: Posts) => {
   const newPost = await db.posts.create({ data: post });
 
   return newPost;

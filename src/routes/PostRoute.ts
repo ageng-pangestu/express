@@ -1,16 +1,18 @@
 import { Router } from "express";
 import * as postController from "../controllers/PostController";
 import authorization from "../middlewares/Authorization";
+import upload from "../middlewares/fileUpload";
+
 const postRoute = Router();
 
-postRoute.get("/", postController.findAll);
+postRoute.get("/", postController.findAllPost);
 
-postRoute.get("/:id", postController.findById);
+postRoute.get("/:id", postController.findByIdPost);
 
-postRoute.post("/", authorization, postController.create);
+postRoute.post("/", authorization, upload.single("image"), postController.createPost);
 
-postRoute.put("/:id", postController.update);
+postRoute.put("/:id", postController.updatePost);
 
-postRoute.delete("/:id", postController.remove);
+postRoute.delete("/:id", postController.deletePost);
 
 export default postRoute;

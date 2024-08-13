@@ -15,19 +15,41 @@ datasource db {
 
 model User {
   id Int @id @default(autoincrement())
-  username String
-  password String
+  username    String
+  password    String
+  fullName    String
+  email       String
   profile_pic String?
-
+  createdAt   DateTime @default(now())
 
   posts Posts[]
+
 }
 
 model Posts {
-  id     Int     @id @default(autoincrement())
-  title  String
-  body   String?
-  userId Int
+  id        Int @id @default(autoincrement())
+  content   String
+  image     String?
+  createdAt DateTime @default(now())
+  userId    Int
+  parentId  Int?
 
-  author User @relation(fields: [userId], references: [id])
+  // images     PostImage[]
+  author   User @relation(fields: [userId], references: [id])
+  
+  //self relation
+  post     Posts?      @relation("PostReplies", fields: [parentId], references: [id])
+  comments Posts[]     @relation("PostReplies")
+
 }
+
+model PostImage {
+  id     Int    @id @default(autoincrement())
+  image  String
+  postId Int
+
+  // post Posts @relation(fields: [postId], references: [id])
+
+}
+
+ 
