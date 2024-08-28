@@ -3,18 +3,25 @@ import * as replyService from "../services/ReplyService";
 import { Request, Response } from "express";
 import errorHandler from "../utils/errorHandler";
 
-export const findAllPost = async (req: Request, res: Response) => {
-  const posts = await replyService.findAll();
+export const findAllReply = async (req: Request, res: Response) => {
+  const posts = await replyService.findAll(parseInt(req.params.post_id));
   res.json(posts);
 };
 
-export const findByIdPost = async (req: Request, res: Response) => {
-  const post = await replyService.findById(parseInt(req.params.id));
+export const countReply = async (req: Request, res: Response) => {
+  const posts = await replyService.countReply(parseInt(req.params.post_id));
+  res.json(posts);
+};
+
+export const findByIdReply = async (req: Request, res: Response) => {
+  const post = await replyService.findById(parseInt(req.params.post_id));
   res.json(post);
 };
 
-export const createPost = async (req: Request, res: Response) => {
+export const createReply = async (req: Request, res: Response) => {
   try {
+    console.log("masuk ReplyController");
+
     await createPostSchema.validateAsync(req.body);
 
     if (req.file) {
@@ -33,7 +40,7 @@ export const createPost = async (req: Request, res: Response) => {
   }
 };
 
-export const updatePost = async (req: Request, res: Response) => {
+export const updateReply = async (req: Request, res: Response) => {
   const post = await replyService.update(parseInt(req.params.id), req.body);
 
   console.log(post);
@@ -41,7 +48,7 @@ export const updatePost = async (req: Request, res: Response) => {
   res.json(post);
 };
 
-export const deletePost = async (req: Request, res: Response) => {
+export const deleteReply = async (req: Request, res: Response) => {
   const post = await replyService.deletePost(parseInt(req.params.id));
   res.json(post);
 };

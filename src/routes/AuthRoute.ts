@@ -1,9 +1,10 @@
 import { Router } from "express";
 import * as authController from "../controllers/AuthController";
-import Authorization from "../middlewares/Authorization";
+import authorization from "../middlewares/Authorization";
 
 const authRoute = Router();
 authRoute.post("/register", authController.register);
 authRoute.post("/login", authController.login);
-authRoute.get("/me", Authorization, authController.checkAuth);
+authRoute.get("/user", authorization, authController.checkAuth);
+authRoute.put("/:user_id", authController.update);
 export default authRoute;

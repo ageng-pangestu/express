@@ -4,26 +4,35 @@ import { Request, Response } from "express";
 import errorHandler from "../utils/errorHandler";
 
 export const findAllPost = async (req: Request, res: Response) => {
-  console.log("Masuk Controller");
-
   const posts = await postService.findAll();
   res.json(posts);
 };
 
+export const findAllUserPost = async (req: Request, res: Response) => {
+  const post = await postService.findAllByUser(parseInt(req.params.user_id));
+
+  res.json(post);
+};
+
 export const findByIdPost = async (req: Request, res: Response) => {
-  const post = await postService.findById(parseInt(req.params.id));
+  const post = await postService.findById(parseInt(req.params.post_id));
   res.json(post);
 };
 
 export const createPost = async (req: Request, res: Response) => {
-  console.log("masuk createcontroller");
-
   try {
+    console.log("Masuk post controller");
+    console.log(req.body.content);
+
     await createPostSchema.validateAsync(req.body);
+    console.log("validation schema berhasil");
 
     if (req.file) {
       req.body.image = req.file.filename;
     }
+
+    console.log("Cek file:");
+    console.log(req.file);
 
     //ambil userId dari user
     const userId = res.locals.user.id;

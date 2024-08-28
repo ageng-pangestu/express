@@ -4,30 +4,50 @@ import { Posts } from "@prisma/client";
 
 const posts: PostModels[] = [];
 
-export const findAll = async () => {
+export const findAll = async (post_id: number) => {
   return await db.posts.findMany({
     // join table
+    where: {
+      parentId: post_id,
+    },
     include: {
       author: {
         select: {
           id: true,
-          username: true,
+          userName: true,
           profile_pic: true,
+          email: true,
+          fullName: true,
         },
       },
+    },
+    orderBy: {
+      createdAt: `desc`,
     },
   });
 };
 
-export const findById = async (id: number) => {
+export const countReply = async (post_id: number) => {
+  const totalReply = await db.posts.count({
+    // join table
+    where: {
+      parentId: post_id,
+    },
+  });
+  return totalReply;
+};
+
+export const findById = async (post_id: number) => {
   return await db.posts.findFirst({
-    where: { id },
+    where: {
+      parentId: post_id,
+    },
     // join table
     include: {
       author: {
         select: {
           id: true,
-          username: true,
+          userName: true,
           profile_pic: true,
         },
       },
@@ -37,8 +57,10 @@ export const findById = async (id: number) => {
 };
 
 //parameter dari model
-export const create = async (post: Posts) => {
-  const newPost = await db.posts.create({ data: post });
+export const create = async (reply: Posts) => {
+  console.log("Masuk ReplyService");
+
+  const newPost = await db.posts.create({ data: reply });
 
   return newPost;
 };

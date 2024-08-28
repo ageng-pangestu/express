@@ -15,15 +15,19 @@ datasource db {
 
 model User {
   id Int @id @default(autoincrement())
-  username    String
+  userName    String
   password    String
   fullName    String
   email       String
+  bio         String?
   profile_pic String?
   createdAt   DateTime @default(now())
-
+  
+  like Likes[]
   posts Posts[]
 
+  user Follow[] @relation("user")
+  following Follow[] @relation("following")
 }
 
 model Posts {
@@ -34,6 +38,7 @@ model Posts {
   userId    Int
   parentId  Int?
 
+  likes Likes[]
   // images     PostImage[]
   author   User @relation(fields: [userId], references: [id])
   
@@ -52,4 +57,20 @@ model PostImage {
 
 }
 
+model Likes {
+  id Int @id @default(autoincrement())
+  userId Int
+  postId Int
+
+ post     Posts      @relation( fields: [postId], references: [id])
+ user     User      @relation( fields: [userId], references: [id]) 
+}
  
+model Follow {
+  id Int @id @default(autoincrement())
+  userId Int
+  followingId Int
+
+  user User @relation("user", fields: [userId], references: [id])
+  following User @relation("following",fields: [followingId], references: [id])
+}

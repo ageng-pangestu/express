@@ -18,7 +18,7 @@ app.use(cors());
 
 //entrypoint
 app.get("/", (req: express.Request, res: express.Response) => {
-  res.send("Papoy");
+  res.send("Hello World");
 });
 app.use(route);
 

@@ -20,6 +20,7 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
   try {
+    // req.body itu dari parameter kedua di client
     const { email, password } = req.body;
     const token = await authService.login(email, password);
 
@@ -29,17 +30,30 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
+//ini untuk mengirim data user ke front end
 export const checkAuth = async (req: Request, res: Response) => {
   try {
     const user = res.locals.user;
 
     res.json({
+      id: user.id,
       fullName: user.fullName,
-      userName: user.username,
+      userName: user.userName,
       email: user.email,
+      bio: user.bio,
     });
   } catch (error) {
     console.log(error);
     errorHandler(res, error as unknown as Error);
   }
+};
+
+export const update = async (req: Request, res: Response) => {
+  console.log("ini udah masuk ke controller");
+
+  const user = await authService.update(parseInt(req.params.user_id), req.body);
+
+  console.log(user);
+
+  res.json(user);
 };

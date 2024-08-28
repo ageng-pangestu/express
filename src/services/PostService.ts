@@ -6,31 +6,62 @@ import { IPosts } from "../types/post";
 const posts: PostModels[] = [];
 
 export const findAll = async () => {
-  console.log("Masuk Service");
   return await db.posts.findMany({
+    where: {
+      parentId: null,
+    },
     // join table
     include: {
       author: {
         select: {
           id: true,
-          username: true,
+          fullName: true,
+          userName: true,
           profile_pic: true,
         },
       },
       comments: true,
     },
+    orderBy: {
+      createdAt: `desc`,
+    },
   });
 };
 
-export const findById = async (id: number) => {
-  return await db.posts.findFirst({
-    where: { id },
+export const findAllByUser = async (user_id: number) => {
+  return await db.posts.findMany({
+    where: {
+      parentId: null,
+      userId: user_id,
+    },
     // join table
     include: {
       author: {
         select: {
           id: true,
-          username: true,
+          fullName: true,
+          userName: true,
+          profile_pic: true,
+        },
+      },
+      comments: true,
+    },
+    orderBy: {
+      createdAt: `desc`,
+    },
+  });
+};
+
+export const findById = async (post_id: number) => {
+  return await db.posts.findFirst({
+    where: { id: post_id },
+    // join table
+    include: {
+      author: {
+        select: {
+          id: true,
+          userName: true,
+          fullName: true,
           profile_pic: true,
         },
       },
@@ -41,7 +72,7 @@ export const findById = async (id: number) => {
 
 //parameter dari model
 export const create = async (post: PostModels) => {
-  console.log("masuk createservice");
+  console.log("Masuk post sercive");
   const newPost = await db.posts.create({ data: post });
 
   return newPost;

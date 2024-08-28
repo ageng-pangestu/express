@@ -17,7 +17,7 @@ export const register = async (user: IUserRegister): Promise<User | string> => {
   //validasi ada usernamenya atau tidak
   const existedUser = await db.user.findFirst({
     where: {
-      username: user.username,
+      userName: user.userName,
     },
   });
 
@@ -42,7 +42,7 @@ export const login = async (email: string, password: string) => {
   //validasi
   const existedUser = await db.user.findFirst({
     where: {
-      OR: [{ email: email }, { username: email }],
+      OR: [{ email: email }, { userName: email }],
     },
   });
 
@@ -59,10 +59,25 @@ export const login = async (email: string, password: string) => {
     throw new Error(ERROR.AUTH_NOT_FOUND);
   }
 
-  //ini token
+  //ini memngubah data yg masuk (existedUSer) menjadi token
   const token = jwt.sign(existedUser, process.env.SECRET_KEY! || "secret", {
     expiresIn: "1d",
   });
 
   return token;
+};
+
+export const update = async (user_id: number, body: IUserRegister) => {
+  const updateProfile = await db.user.update({
+    where: {
+      id: user_id,
+    },
+    data: {
+      fullName: body.fullName,
+      userName: body.userName,
+      bio: body.bio,
+    },
+  });
+
+  return updateProfile;
 };
