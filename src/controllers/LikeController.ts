@@ -7,8 +7,6 @@ export const like = async (req: Request, res: Response) => {
     //ambil userId dari user
     const userId = res.locals.user.id;
     const postId = parseInt(req.params.post_id);
-    console.log("User id yang ngelike: " + userId);
-    console.log("Post id nya: " + postId);
 
     req.body.userId = res.locals.user.id;
     req.body.postId = parseInt(req.params.post_id);

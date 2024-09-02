@@ -68,6 +68,7 @@ export const login = async (email: string, password: string) => {
 };
 
 export const update = async (user_id: number, body: IUserRegister) => {
+  console.log("masuk auth servise buat update");
   const updateProfile = await db.user.update({
     where: {
       id: user_id,
@@ -76,6 +77,7 @@ export const update = async (user_id: number, body: IUserRegister) => {
       fullName: body.fullName,
       userName: body.userName,
       bio: body.bio,
+      profile_pic: body.profile_pic,
     },
   });
 

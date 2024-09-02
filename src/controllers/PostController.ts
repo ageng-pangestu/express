@@ -21,23 +21,14 @@ export const findByIdPost = async (req: Request, res: Response) => {
 
 export const createPost = async (req: Request, res: Response) => {
   try {
-    console.log("Masuk post controller");
-    console.log(req.body.content);
-
-    await createPostSchema.validateAsync(req.body);
-    console.log("validation schema berhasil");
+    // await createPostSchema.validateAsync(req.body);
 
     if (req.file) {
       req.body.image = req.file.filename;
     }
 
-    console.log("Cek file:");
-    console.log(req.file);
-
     //ambil userId dari user
     const userId = res.locals.user.id;
-    console.log("User id: " + userId);
-
     req.body.userId = userId;
 
     const post = await postService.create(req.body);

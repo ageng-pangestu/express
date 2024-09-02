@@ -21,6 +21,7 @@ model User {
   email       String
   bio         String?
   profile_pic String?
+  banner      String?
   createdAt   DateTime @default(now())
   
   like Likes[]

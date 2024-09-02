@@ -72,7 +72,6 @@ export const findById = async (post_id: number) => {
 
 //parameter dari model
 export const create = async (post: PostModels) => {
-  console.log("Masuk post sercive");
   const newPost = await db.posts.create({ data: post });
 
   return newPost;

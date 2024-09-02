@@ -58,8 +58,6 @@ export const findById = async (post_id: number) => {
 
 //parameter dari model
 export const create = async (reply: Posts) => {
-  console.log("Masuk ReplyService");
-
   const newPost = await db.posts.create({ data: reply });
 
   return newPost;

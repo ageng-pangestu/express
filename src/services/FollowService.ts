@@ -32,14 +32,10 @@ export const checkFollow = async (follow: IFollowModels) => {
     },
   });
 
-  console.log("ke follow ga:");
-
   let isFollow = true;
   if (!existedFollow) {
     isFollow = false;
-    console.log("if nya masuk ga");
   }
 
-  console.log(isFollow);
   return isFollow;
 };

@@ -49,11 +49,20 @@ export const checkAuth = async (req: Request, res: Response) => {
 };
 
 export const update = async (req: Request, res: Response) => {
-  console.log("ini udah masuk ke controller");
+  console.log("masuk auth controller buat update");
 
-  const user = await authService.update(parseInt(req.params.user_id), req.body);
+  try {
+    console.log(req.file?.filename);
 
-  console.log(user);
+    if (req.file) {
+      req.body.profile_pic = req.file.filename;
+    }
 
-  res.json(user);
+    const user = await authService.update(parseInt(req.params.user_id), req.body);
+
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+    errorHandler(res, error as unknown as Error);
+  }
 };

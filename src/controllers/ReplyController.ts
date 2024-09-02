@@ -20,8 +20,6 @@ export const findByIdReply = async (req: Request, res: Response) => {
 
 export const createReply = async (req: Request, res: Response) => {
   try {
-    console.log("masuk ReplyController");
-
     await createPostSchema.validateAsync(req.body);
 
     if (req.file) {

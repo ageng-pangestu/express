@@ -3,10 +3,6 @@ import db from "../libs/db";
 import { ILikeModels } from "../models/LikeModel";
 
 export const like = async (like: ILikeModels) => {
-  console.log("masuk likeService");
-  console.log("data like nya: ");
-  console.log(like);
-
   //cek udah di like atau belum
   const isLike = await db.likes.findFirst({
     where: {
@@ -46,8 +42,6 @@ export const checkLike = async (like: ILikeModels) => {
   if (!existedLike) {
     isLike = false;
   }
-
-  console.log(isLike);
 
   return isLike;
 };
