@@ -52,10 +52,8 @@ export const update = async (req: Request, res: Response) => {
   console.log("masuk auth controller buat update");
 
   try {
-    console.log(req.file?.filename);
-
-    if (req.file) {
-      req.body.profile_pic = req.file.filename;
+    if (res.locals.image) {
+      req.body.profile_pic = res.locals.image;
     }
 
     const user = await authService.update(parseInt(req.params.user_id), req.body);

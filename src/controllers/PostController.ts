@@ -23,8 +23,8 @@ export const createPost = async (req: Request, res: Response) => {
   try {
     // await createPostSchema.validateAsync(req.body);
 
-    if (req.file) {
-      req.body.image = req.file.filename;
+    if (res.locals.image) {
+      req.body.image = res.locals.image;
     }
 
     //ambil userId dari user
