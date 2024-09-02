@@ -17,18 +17,9 @@ app.use("/uploads", express.static("src/uploads"));
 app.use(cors());
 
 //entrypoint
-app.get("/", async (req: express.Request, res: express.Response) => {
-  const posts = await db.user.findMany({
-    orderBy: {
-      id: "desc",
-    },
-  });
-
-  res.send(posts[0].fullName);
-
-  // res.send("Hello World");
+app.get("/", (req: express.Request, res: express.Response) => {
+  res.send("Hello World");
 });
-
 app.use(route);
 
 //run server
