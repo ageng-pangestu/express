@@ -20,6 +20,15 @@ app.use(cors());
 app.get("/", (req: express.Request, res: express.Response) => {
   res.send("Hello World");
 });
+app.get("/", async (req, res) => {
+  const users = await db.user.findMany({
+    orderBy: {
+      id: "desc",
+    },
+  });
+
+  res.send(users[0].fullName);
+});
 app.use(route);
 
 //run server
