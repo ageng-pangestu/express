@@ -13,17 +13,21 @@ interface CloudinaryFile extends Express.Multer.File {
 }
 
 export const uploadCloudinary = async (req: Request, res: Response, next: NextFunction) => {
-  console.log("uploading");
+  try {
+    console.log("uploading");
 
-  const file: CloudinaryFile = req.file as CloudinaryFile;
-  const files: CloudinaryFile[] = req.files as CloudinaryFile[];
+    const file: CloudinaryFile = req.file as CloudinaryFile;
+    const files: CloudinaryFile[] = req.files as CloudinaryFile[];
 
-  if (!file) {
-    return next();
-  }
+    if (!file) {
+      return next();
+    }
 
-  if (file) {
-    return uploadSingle(file, res, next);
+    if (file) {
+      return uploadSingle(file, res, next);
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 
