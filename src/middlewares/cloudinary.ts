@@ -20,7 +20,6 @@ export const uploadCloudinary = async (req: Request, res: Response, next: NextFu
 
   if (!file) {
     next;
-    return res.send("No file uploaded");
   }
 
   if (file) {
