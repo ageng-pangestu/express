@@ -19,6 +19,7 @@ export const uploadCloudinary = async (req: Request, res: Response, next: NextFu
   const files: CloudinaryFile[] = req.files as CloudinaryFile[];
 
   if (!file) {
+    next;
     return res.send("No file uploaded");
   }
 
