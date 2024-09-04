@@ -25,6 +25,16 @@ export const uploadCloudinary = async (req: Request, res: Response, next: NextFu
   if (file) {
     return uploadSingle(file, res, next);
   }
+  // Kalau ada file muliple
+  // if (!file && files.length < 1) {
+  //   return next();
+  // }
+
+  // if (file) {
+  //   return uploadSingle(file, res, next);
+  // } else {
+  //   return uploadMultiple(files, res, next);
+  // }
 };
 
 const uploadMultiple = async (files: CloudinaryFile[], res: Response, next: NextFunction) => {
