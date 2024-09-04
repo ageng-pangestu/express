@@ -18,12 +18,14 @@ export const uploadCloudinary = async (req: Request, res: Response, next: NextFu
   const file: CloudinaryFile = req.file as CloudinaryFile;
   const files: CloudinaryFile[] = req.files as CloudinaryFile[];
 
-  if (!file) {
-    next();
+  if (!file && files.length < 1) {
+    return next();
   }
 
   if (file) {
     return uploadSingle(file, res, next);
+  } else {
+    return uploadMultiple(files, res, next);
   }
 };
 
