@@ -2,6 +2,7 @@ import { PostModels } from "../models/PostModels";
 import db from "../libs/db";
 import { Posts } from "@prisma/client";
 import { IPosts } from "../types/post";
+import { json } from "stream/consumers";
 
 const posts: PostModels[] = [];
 
@@ -66,6 +67,7 @@ export const findById = async (post_id: number) => {
         },
       },
       comments: true,
+      likes: true,
     },
   });
 };
@@ -91,11 +93,27 @@ export const update = async (id: number, post: PostModels) => {
 };
 
 export const deletePost = async (id: number) => {
-  const deletePost = await db.posts.delete({
-    where: {
-      id: id,
-    },
-  });
+  try {
+    console.log("Masuk service, dan id nya " + id);
 
-  return deletePost;
+    await db.likes.deleteMany({
+      where: {
+        postId: id,
+      },
+    });
+    await db.posts.deleteMany({
+      where: {
+        parentId: id,
+      },
+    });
+    await db.posts.deleteMany({
+      where: {
+        id: id,
+      },
+    });
+
+    return "terhapus sudah masa lalu itu";
+  } catch (error) {
+    console.log(error);
+  }
 };

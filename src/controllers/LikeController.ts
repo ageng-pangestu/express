@@ -5,8 +5,6 @@ import * as likeService from "../services/LikeService";
 export const like = async (req: Request, res: Response) => {
   try {
     //ambil userId dari user
-    const userId = res.locals.user.id;
-    const postId = parseInt(req.params.post_id);
 
     req.body.userId = res.locals.user.id;
     req.body.postId = parseInt(req.params.post_id);

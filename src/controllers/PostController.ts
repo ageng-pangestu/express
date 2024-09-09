@@ -15,6 +15,8 @@ export const findAllUserPost = async (req: Request, res: Response) => {
 };
 
 export const findByIdPost = async (req: Request, res: Response) => {
+  console.log("masuk controller");
+
   const post = await postService.findById(parseInt(req.params.post_id));
   res.json(post);
 };
@@ -47,6 +49,12 @@ export const updatePost = async (req: Request, res: Response) => {
 };
 
 export const deletePost = async (req: Request, res: Response) => {
-  const post = await postService.deletePost(parseInt(req.params.id));
-  res.json(post);
+  try {
+    console.log("masuk controller");
+
+    const post = await postService.deletePost(parseInt(req.params.id));
+    res.json(post);
+  } catch (error) {
+    errorHandler(res, error as unknown as Error);
+  }
 };
